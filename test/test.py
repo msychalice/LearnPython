@@ -1,1 +1,5 @@
 print("test")
+print(len("hello"))
+print("hello\n" * 3 + str(3))
+name = input()
+print("my name is " + name)
