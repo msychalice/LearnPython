@@ -11,7 +11,11 @@ pswd = ""
 cvvCode = ""
 
 def openBrowser():
-    browser = webdriver.Chrome()
+    options = webdriver.ChromeOptions()
+    options.add_experimental_option("excludeSwitches", ["enable-automation"])
+    options.add_experimental_option('useAutomationExtension', False)
+    options.add_argument('--disable-blink-features=AutomationControlled')
+    browser = webdriver.Chrome(options=options) # hide bot detection
     browser.maximize_window()
     # An implicit wait tells WebDriver to poll the DOM for a certain amount of time when trying to find any element (or elements) not immediately available.
     browser.implicitly_wait(60)
@@ -68,12 +72,12 @@ def refreshAndBuy():
                 secCode.send_keys(cvvCode)
                 browser.switch_to.default_content()
 
+                # !!! for empty cart
                 shippingOptions = browser.find_elements(By.XPATH, "//input[@value='Continue to Shipping Options']")
                 shippingOptions[0].click()
 
                 placeOrder = browser.find_elements(By.XPATH, "//input[@value='Place Order']")
                 placeOrder[0].click()
-
 
                 os.system("watch -n 1.5 play -nq -t alsa synth 1 sine 400")
                 break
